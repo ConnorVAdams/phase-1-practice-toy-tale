@@ -14,11 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-//Assign variables to each DOM target.
+//! Assign variables to each DOM target.
 const toyCollection = document.querySelector('#toy-collection');
-const submitBtn = document.querySelector('#new-toy-btn');
+const submitBtn = document.querySelector('.submit');
+const newToyName = document.querySelector('input[name="name"]')
+const newToyImg = document.querySelector('input[name="image"]')
 
-//TODO loadToys on DOMContentLoaded
+//! loadToys() on DOMContentLoaded
 //Send GET request to server/toys and populate the page
 const loadToys = () => {
   return fetch('http://localhost:3000/toys', {
@@ -40,11 +42,11 @@ const loadToys = () => {
   })
 };
 
-//Attach event listener to document for DOMContentLoaded event.
+//! Attach event listener to document for DOMContentLoaded event.
 //Displays all toys and associated info in collection on page load.
 document.addEventListener('DOMContentLoaded', loadToys)
 
-//TODO renderToy
+//! define renderToy()
 //Populates a card with toy values from db
 const renderToy = (toyObj) => {
     //Render HTML container
@@ -56,7 +58,8 @@ const renderToy = (toyObj) => {
       const numOfLikes = document.createElement('p');
       toyCard.appendChild(numOfLikes);
       const likeBtn = createLikeBtn(toyObj.id);
-      //Add event listener with like handler
+      //! Add event listener with like handler
+        //TODO Define this listener in createLikeBtn() to clean up this function
         likeBtn.addEventListener('click', () => {
           //Obtain current likes from DOM Object
           let currentLikes = parseInt(numOfLikes.textContent);
@@ -94,6 +97,7 @@ const renderToy = (toyObj) => {
     toyCollection.appendChild(toyCard);
 };
 
+//! define createLikeBtn()
 //Creates like button and attaches handleSubmit listener to it
 const createLikeBtn = (toyId) => {
   const likeBtn = document.createElement('button');
@@ -106,34 +110,21 @@ const createLikeBtn = (toyId) => {
   return likeBtn;
 };
 
-//Appends the rendered toy to the #toy-collection <div> on the DOM
-
-//TODO higherOrder functions that pass both submit events (add toy and add like) through handleSubmit
-//One PATCHes the number of likes from db and updates it
-
-//Other POSTs the new toy object
-
 //TODO handleSubmit
 //Send POST request to server/toys and add the new toyObj to the collection in db.json.
+//preventDefault() on form behavior
+const handleSubmit = (e) => {
+  //Prevent page refresh
+  e.preventDefault();
+  console.log(e.target)
+  //Capture input values with name attribute
 
+}
 //On success
 //Update the DOM to show the toy without reloading the page.
 
 //On failure
 //Catch errors
 //Alert user
-
-//TODO handleLike
-//Send PATCH request to server/toys/:id and update the value of likes.
-
-//Capture parent toy's id
-
-//Calculate updated likes value
-
-//Submit PATCH request
-
-//Update the card in the DOM based on response from server.
-
-//Call function to update DOM element
-
-//Catch errors
+//! Add event listener to form
+submitBtn.addEventListener('click', handleSubmit)
