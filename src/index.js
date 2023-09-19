@@ -75,8 +75,9 @@ const renderToy = (toyObj) => {
             'likes': currentLikes + 1
           }),
         })
+        //Return a toyObj as POJO
         .then(resp => resp.json())
-        .then(data => console.log(data))
+        //Update likes on toyObj in the DOM
         .then(data => {
           //Increase likes by 1 on the DOM in the event of a successful PATCH
           numOfLikes.textContent = currentLikes + 1;
@@ -85,6 +86,7 @@ const renderToy = (toyObj) => {
           console.log('Operation unsuccessful')
         })
       })
+      //Attach fully defined button to card
       toyCard.appendChild(likeBtn);
     //Assign classes
     toyCard.className = 'card';
@@ -110,7 +112,7 @@ const createLikeBtn = (toyId) => {
   return likeBtn;
 };
 
-//TODO handleSubmit
+//! define handleSubmit
 //Send POST request to server/toys and add the new toyObj to the collection in db.json.
 //preventDefault() on form behavior
 const handleSubmit = (e) => {
@@ -133,16 +135,20 @@ const handleSubmit = (e) => {
     })
   })
   .then(resp => resp.json())
-  .then(data => console.log(data))
+  .then(data => renderToy(data))
+  .then(() => document.querySelector('form').reset())
+
   
   
 
 }
 //On success
 //Update the DOM to show the toy without reloading the page.
-
+//Reset form
 //On failure
 //Catch errors
 //Alert user
+
+
 //! Add event listener to form
 submitBtn.addEventListener('click', handleSubmit)
