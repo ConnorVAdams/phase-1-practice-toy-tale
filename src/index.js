@@ -55,8 +55,7 @@ const renderToy = (toyObj) => {
       toyCard.appendChild(toyImg);
       const numOfLikes = document.createElement('p');
       toyCard.appendChild(numOfLikes);
-      const likeBtn = document.createElement('button');
-      likeBtn.textContent = '♥ Like'
+      const likeBtn = createLikeBtn();
       toyCard.appendChild(likeBtn);
     //Assign classes
     toyCard.className = 'card';
@@ -70,6 +69,12 @@ const renderToy = (toyObj) => {
 };
 
 //Creates like button and attaches handleSubmit listener to it
+const createLikeBtn = () => {
+  const likeBtn = document.createElement('button');
+  likeBtn.textContent = '♥ Like'
+  likeBtn.addEventListener('click',)
+  return likeBtn;
+};
 
 //Appends the rendered toy to the #toy-collection <div> on the DOM
 
