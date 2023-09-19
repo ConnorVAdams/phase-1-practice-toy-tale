@@ -18,10 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
 const toyCollection = document.querySelector('#toy-collection');
 const submitBtn = document.querySelector('#new-toy-btn');
 
-//TODO renderToys
+//TODO renderToys on DOMContentLoaded
 //Send GET request to server/toys and populate the page
-const renderToys = () => {
-
+const loadToys = () => {
+  return fetch('http://localhost:3000/toys', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+  })
+  .then(resp => resp.json())
+  .then(data => {
+    data.forEach(renderToy);
+  })
 }
 //Return a toysObj 
 
@@ -30,19 +40,30 @@ const renderToys = () => {
 //Iterate through toysObj and pass each toy to renderToy
 
 //TODO renderToy
-//Create <div> to attach data to
+//Populates a card with toy values from db
 const renderToy = (toyObj) => {
-  const toyCard = document.createElement('div');
-  //Assign the card class to it
-  toyCard.className = 'card';
-  
-  //Append it to the DOM
-  toyCollection.appendChild(toyCard);
-  //Takes in arguments from each toy in toyObj and for id, name, image src, image alt, and likes
-  // const renderToy = (toyObj) => {
-  //   toyCard
-  // }
-}
+    //Render HTML container
+    const toyCard = document.createElement('div');
+      const toyName = document.createElement('h2');
+      toyCard.appendChild(toyName);
+      const toyImg = document.createElement('img');
+      toyCard.appendChild(toyImg);
+      const numOfLikes = document.createElement('p');
+      toyCard.appendChild(numOfLikes);
+      const likeBtn = document.createElement('button');
+      likeBtn.textContent = '♥ Like'
+      toyCard.appendChild(likeBtn);
+    //Assign classes
+    toyCard.className = 'card';
+      likeBtn.className = 'like-btn'
+    //Change properties of HTML element to reflect passed in toyObj
+    toyName.textContent = toyObj.name;
+    toyImg.src = toyObj.image;
+    numOfLikes.textContent = toyObj.likes;
+    //Append it to the DOM
+    toyCollection.appendChild(toyCard);
+};
+
 //Creates like button and attaches handleSubmit listener to it
 
 //Appends the rendered toy to the #toy-collection <div> on the DOM
