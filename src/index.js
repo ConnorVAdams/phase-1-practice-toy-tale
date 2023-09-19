@@ -116,8 +116,26 @@ const createLikeBtn = (toyId) => {
 const handleSubmit = (e) => {
   //Prevent page refresh
   e.preventDefault();
-  console.log(e.target)
-  //Capture input values with name attribute
+  //Capture input values from global variables which target input name attribute.
+  const submittedToyName = newToyName.value
+  const submittedToyImg = newToyImg.value
+  //Send POST request to server/toys
+  return fetch('http://localhost:3000/toys', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      'name': submittedToyName,
+      'image': submittedToyImg,
+      'likes': 0,
+    })
+  })
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+  
+  
 
 }
 //On success
