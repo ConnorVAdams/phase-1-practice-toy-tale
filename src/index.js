@@ -83,7 +83,8 @@ const renderToy = (toyObj) => {
           numOfLikes.textContent = currentLikes + 1;
         })
         .catch(error => {
-          console.log('Operation unsuccessful')
+          alert('Operation unsuccessful. Failed to save toy in database.')
+          console.log('Operation unsuccessful. Failed to update toy in database.')
         })
       })
       //Attach fully defined button to card
@@ -134,21 +135,20 @@ const handleSubmit = (e) => {
       'likes': 0,
     })
   })
+  //Return a toyObj as POJO
   .then(resp => resp.json())
+  //Display that toyObj in the DOM
   .then(data => renderToy(data))
+  //Reset submission form
   .then(() => document.querySelector('form').reset())
-
-  
+  //Handle errors
+  .catch(error => {
+    alert('Operation unsuccessful. Failed to save toy in database.')
+    console.log('Operation unsuccessful. Failed to save toy in database.')
+  })
   
 
 }
-//On success
-//Update the DOM to show the toy without reloading the page.
-//Reset form
-//On failure
-//Catch errors
-//Alert user
-
 
 //! Add event listener to form
 submitBtn.addEventListener('click', handleSubmit)
