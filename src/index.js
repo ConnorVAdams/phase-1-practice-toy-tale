@@ -28,7 +28,7 @@ const loadToys = () => {
       'Accept': 'application/json',
     },
   })
-  //Return a toysObj 
+  //Return a toysObj in POJO
   .then(resp => resp.json())
   //Iterate through toysObj and pass each toy to renderToy
   .then(data => {
@@ -55,7 +55,30 @@ const renderToy = (toyObj) => {
       toyCard.appendChild(toyImg);
       const numOfLikes = document.createElement('p');
       toyCard.appendChild(numOfLikes);
-      const likeBtn = createLikeBtn();
+      const likeBtn = createLikeBtn(toyObj.id);
+      //Add event listener with like handler
+        likeBtn.addEventListener('click', () => {
+          //Obtain current likes from DOM Object
+          let currentLikes = parseInt(numOfLikes.textContent);
+          //Pass the updated DOM Object to the PATCH request
+          return fetch(`http://localhost:3000/toys/${toyObj.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            //Increase likes by 1 in the db first to render pessimistically
+            'likes': currentLikes + 1
+          }),
+        })
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+        .then(data => {
+          //Increase likes by 1 on the DOM in the event of a successful PATCH
+          numOfLikes.textContent = currentLikes + 1;
+        })
+      })
       toyCard.appendChild(likeBtn);
     //Assign classes
     toyCard.className = 'card';
@@ -69,10 +92,27 @@ const renderToy = (toyObj) => {
 };
 
 //Creates like button and attaches handleSubmit listener to it
-const createLikeBtn = () => {
+const createLikeBtn = (toyId) => {
   const likeBtn = document.createElement('button');
   likeBtn.textContent = '♥ Like'
-  likeBtn.addEventListener('click',)
+  //Adds ID for ability to target toy in db
+  likeBtn.id = toyId
+  //Event listener to fire when like button is clicked
+  likeBtn.addEventListener('click', (e) => {
+    
+    //PATCH number of likes on the server
+    // return fetch(`http://localhost:3000/toys/${toyId}`, {
+    //   method: 'PATCH',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    //   },
+    //   body: JSON.stringify(toyObj)
+    // })
+    // .then(resp => resp.json())
+    // .then(data => console.log(data))
+
+  })
   return likeBtn;
 };
 
