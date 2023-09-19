@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const toyCollection = document.querySelector('#toy-collection');
 const submitBtn = document.querySelector('#new-toy-btn');
 
-//TODO renderToys on DOMContentLoaded
+//TODO loadToys on DOMContentLoaded
 //Send GET request to server/toys and populate the page
 const loadToys = () => {
   return fetch('http://localhost:3000/toys', {
@@ -28,16 +28,21 @@ const loadToys = () => {
       'Accept': 'application/json',
     },
   })
+  //Return a toysObj 
   .then(resp => resp.json())
+  //Iterate through toysObj and pass each toy to renderToy
   .then(data => {
     data.forEach(renderToy);
   })
-}
-//Return a toysObj 
+  //Handle errors
+  .catch(error => {
+    console.log('Failed to load')
+  })
+};
 
-//Handle errors
-
-//Iterate through toysObj and pass each toy to renderToy
+//Attach event listener to document for DOMContentLoaded event.
+//Displays all toys and associated info in collection on page load.
+document.addEventListener('DOMContentLoaded', loadToys)
 
 //TODO renderToy
 //Populates a card with toy values from db
