@@ -78,6 +78,9 @@ const renderToy = (toyObj) => {
           //Increase likes by 1 on the DOM in the event of a successful PATCH
           numOfLikes.textContent = currentLikes + 1;
         })
+        .catch(error => {
+          console.log('Operation unsuccessful')
+        })
       })
       toyCard.appendChild(likeBtn);
     //Assign classes
@@ -99,19 +102,6 @@ const createLikeBtn = (toyId) => {
   likeBtn.id = toyId
   //Event listener to fire when like button is clicked
   likeBtn.addEventListener('click', (e) => {
-    
-    //PATCH number of likes on the server
-    // return fetch(`http://localhost:3000/toys/${toyId}`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //   },
-    //   body: JSON.stringify(toyObj)
-    // })
-    // .then(resp => resp.json())
-    // .then(data => console.log(data))
-
   })
   return likeBtn;
 };
